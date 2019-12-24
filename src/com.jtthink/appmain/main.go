@@ -2,61 +2,30 @@ package main
 
 import (
 	_ "com.jtthink/Servicesb"
-	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type all interface{} //声明一个空接口，
+
 func main()  {
 
-	//arr:=[5]int{1,2,3} //数组
-	//fmt.Println(arr)
-	//fmt.Println(len(arr),cap(arr))
-	//
-	//s:=[]int{1,2,3} //切片,代值初始化
-	//fmt.Println(s)
-	//fmt.Println(len(s),cap(s))
-	//
-	//var ss[]int  //声明切片
-	//ss=make([]int,5) //初始化切片
-	//fmt.Println(ss)
-	//
-	//sss:=make([]int,5) //声明切片
-	//fmt.Println(sss)
+	var i all=123 //空接口可以赋值为任意类型
+	fmt.Println(i)
 
-	//arr:=[5]int{1,2,3,4,5}
-	//s:=arr[0:4] //从数组生成切片，左闭右开，>=0 && <4
-	//fmt.Println(s)
-	//fmt.Println(len(s),cap(s)) //长度是实际元素个数，容量是数组长度
-	//s=append(s,1,2,4,5) //超过容量的添加会自动扩容，
-	//fmt.Println(len(s),cap(s))
+	var ii interface{} = "zhangsan" //匿名空接口
+	fmt.Println(ii)
 
+	list:=make([]interface{},2) //声明一个空类型，类型是空接口
+	list[0]=1
+	list[1]="lisi"
+	fmt.Println(list)
 
-
-
-
-
-	//var service core.IServices=s.UserService{}
-	//Println(service.Get(1))
-
-	//core.SetService(servicesb.UserService{})
-	//fmt.Println(core.GetService().Get(1))
-
-
-	//fmt.Println(core.GetService().Get(1))
-
-// // 链接mysql数据库
-	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/test?charset=utf8mb4")
-	if err != nil{
-		fmt.Println("连接出错"+err.Error())
-		return
-	}
-	rows,err:=db.Query("select user_id,user_name from user")
-	if err != nil{
-		fmt.Println("查询出错"+err.Error())
-		return
-	}
-	fmt.Println(rows.Columns())
+//// // 链接mysql数据库
+//	db,_ := sql.Open("mysql", "root:123456@tcp(localhost:3306)/test?charset=utf8mb4")
+//
+//	rows,_:=db.Query("select user_id,user_name from user")
+//	fmt.Println(rows.Columns())
 
 	//// var newsModel models.NewsModel=models.NewsModel{} // 两种变量申明方式
 	//newsModel:=models.NewsModel{} // 两种变量申明方式
