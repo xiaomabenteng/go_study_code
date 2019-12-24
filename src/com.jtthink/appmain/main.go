@@ -11,6 +11,12 @@ type all interface{} //声明一个空接口，
 
 func main()  {
 
+	////m:=map[string]string{"name":"zhangsan"} //map类型 第一种初始化方式
+	//m:=make(map[string]string) //第二种初始化方式
+	//m["username"]="lisi"
+	//delete(m,"username") //删除一个键
+	//fmt.Println(m)
+
 	//var i all=123 //空接口可以赋值为任意类型
 	//fmt.Println(i)
 	//
@@ -28,7 +34,7 @@ func main()  {
 	rows,_:=db.Query("select user_id,user_name from user")
 	fmt.Println(rows.Columns())
 
-	allRows:=make([]interface{},0)
+	allRows:=make([]interface{},0) //定义大切片
 	for rows.Next(){
 		//var uid int
 		//var uname string
@@ -42,7 +48,7 @@ func main()  {
 
 
 		oneRow:=make([]interface{},2)
-		rows.Scan(&oneRow[0],&oneRow[1])
+		rows.Scan(&oneRow[0],&oneRow[1]) //每一行数据
 		//for i:=0;i<len(oneRow) ;i++  { 第一种for方式
 		//	fmt.Println(i,oneRow[i]) //返回的是ascii值
 		//}
@@ -56,7 +62,7 @@ func main()  {
 		}
 		//b:=[]byte{97,98,99}
 		//fmt.Println(string(b)) //字节数组转成string
-		allRows=append(allRows,oneRow)
+		allRows=append(allRows,oneRow) //每一行塞进大切片
 
 
 	}
