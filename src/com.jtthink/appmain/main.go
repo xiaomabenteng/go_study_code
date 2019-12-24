@@ -30,15 +30,34 @@ func main()  {
 
 	allRows:=make([]interface{},0)
 	for rows.Next(){
-		var uid int
-		var uname string
-		rows.Scan(&uid,&uname)
-		//oneRow:=make([]interface{},2) //第一种方式
-		//oneRow[0]=uid
-		//oneRow[1]=uname
-		//allRows=append(allRows,oneRow)
+		//var uid int
+		//var uname string
+		//rows.Scan(&uid,&uname)
+		////oneRow:=make([]interface{},2) //第一种方式
+		////oneRow[0]=uid
+		////oneRow[1]=uname
+		////allRows=append(allRows,oneRow)
+		//
+		//allRows=append(allRows,[]interface{}{uid,uname}) //第二种简化方式
 
-		allRows=append(allRows,[]interface{}{uid,uname}) //第二种简化方式
+
+		oneRow:=make([]interface{},2)
+		rows.Scan(&oneRow[0],&oneRow[1])
+		//for i:=0;i<len(oneRow) ;i++  { 第一种for方式
+		//	fmt.Println(i,oneRow[i]) //返回的是ascii值
+		//}
+		for i,val:=range oneRow{  //第二种for方式
+		v,ok:=val.([]byte) //类型断言
+		if(ok){
+			//fmt.Println(i,string(v)) //类型断言后才能转换
+			oneRow[i]=string(v)
+		}
+
+		}
+		//b:=[]byte{97,98,99}
+		//fmt.Println(string(b)) //字节数组转成string
+		allRows=append(allRows,oneRow)
+
 
 	}
 	fmt.Println(allRows)
