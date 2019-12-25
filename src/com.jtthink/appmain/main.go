@@ -4,19 +4,26 @@ import (
 	_ "com.jtthink/Servicesb"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"time"
 )
 
-func sum(max int)  {
+func sum(max int,c chan int)  {
 	res:=0
 	for i:=0;i<=max;i++ {
 		res=res+i
 	}
-	fmt.Println(res)
+	c<-res //数据写入者
 }
 func main()  {
 
-	go sum(100) //使用go关键字开启协程
-	time.Sleep(time.Second) //不加这一句时，因为main函数执行完时候，协程还未执行完时不会打印出结果
+	c:=make(chan int) //声明channel
+	go sum(100,c) // 通过channel实现主线程和协程交互
+	res:=<-c //数据接收者
+	fmt.Println(res)
+	//上面的代码中
+	//    对于发送者：如果没有接收者读取 channel （<- channel），则发送者 (channel <-) 会一直阻塞。
+	//   同样对于接收者： 接收操作是阻塞的直到发送者发送数据
+	//   根据上面的特性，就能实现当goroutine执行完成后  得到数据
+
+
 
 }

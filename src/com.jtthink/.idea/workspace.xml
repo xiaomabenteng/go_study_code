@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="14fcfb01-7acc-4586-9b37-bef3657cee6a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appmain/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/appmain/main.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/appmain/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="18" column="29" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
+            <state relative-caret-position="118">
+              <caret line="18" column="6" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -197,7 +195,7 @@
     </recent_temporary>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-49" y="23" width="1152" height="766" extended-state="0" />
+    <frame x="-49" y="23" width="1152" height="766" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1773309" />
@@ -213,7 +211,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.15275814" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.15141957" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -227,8 +225,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/appmain/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="18" column="29" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
+        <state relative-caret-position="118">
+          <caret line="18" column="6" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="6" />
         </state>
       </provider>
     </entry>
