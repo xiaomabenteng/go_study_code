@@ -13,19 +13,30 @@ func main()  {
 	users:=strings.Split("zhangsan,lisi,wangwu",",")
 	ages:=strings.Split("19,21,22",",")
 
-	alllist:=make([]string,0)
+	c1:=make(chan string,len(users))
+	c2:=make(chan string,len(ages))
 
-	//alllist=append(alllist, users...) //合并两个数组，到一个新的切片
-	//alllist=append(alllist,ages...)
-	////结果[zhangsan lisi wangwu 19 21 22]
+	go func() {
+		for _,v:=range users{
+			c1<-v
+		}
+		close(c1)
+	}()
+	go func() {
+		for _,v:=range ages{
+			c2<-v
+		}
+		close(c2)
+	}()
 
-	//for i,v:=range users{ //循环遍历交替插入
-	//	alllist= append(alllist, v)
-	//	alllist= append(alllist, ages[i])
-	//}
-	////结果[zhangsan 19 lisi 21 wangwu 22]
+	for v:=range c1{ //range channel 只有v 没有index。channel可以使用range遍历，但是有区别在于它会一直遍历，直到channel被关闭，(关闭的channel，取值不会阻塞，返回零值)
+		fmt.Println(v)
+	}
+	for v:=range c2{
+		fmt.Println(v)
+	}
 
-	fmt.Println(alllist)
+
 
 
 
