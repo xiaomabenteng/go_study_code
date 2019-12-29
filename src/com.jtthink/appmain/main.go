@@ -6,25 +6,28 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func test()  {
+//func test() (ret int) { //函数返回值可以只写类型int,或者写上变量名和类型
+//	//a:=1
+//	return                // 此时可以直接写 return
+//	return ret
+//}
+
+//func test() (ret int) {  // 返回值是1。因为该函数执行顺序是，ret被初始化为0，然后变量a赋值给ret,返回ret
+//	a:=1
+//	defer func() {
+//		a++
+//	}()
+//	return a
+//}
+func test() (ret int) {  // 返回值是2。因为该函数执行顺序是，ret被初始化为0，return先执行把变量a赋值给ret,接着defer执行，最后返回ret
 	a:=1
 	defer func() {
-		fmt.Println(a)
+		ret++
 	}()
-	defer func() {
-		a=10
-	}()
-	defer func() {     //需要定义在异常前面，可以定义多个，执行顺序是最后定义的先执行
-		fmt.Println(a)
-	}()
-
-	panic("my exp") //throw
-
-
-
+	return a
 }
 func main()  {
-	test()
+	fmt.Println(test())
 //
 //
 //url:="https://news.cnblogs.com/n/page/%d/"
