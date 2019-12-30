@@ -4,6 +4,15 @@ import (
 	"fmt"
 	"net"
 )
+func response() string {
+	str:=`HTTP/1.1 200 OK
+Server: myserver
+Content-Type: text/html
+
+this is body
+`
+	return str
+}
 
 func main()  {
 
@@ -29,7 +38,7 @@ func main()  {
 				return
 			}
 			fmt.Printf(string(buf[:n]))
-			c.Write([]byte("abc"))
+			c.Write([]byte(response()))
 		}(client)
 	}
 
