@@ -40,6 +40,9 @@ for i:=1;i<=10;i++{
 			if err:=recover();err!=nil{ //捕获异常并处理
 				fmt.Println(err)
 			}
+			//if index==3 { //关闭通道，否则主函数一直在执行
+			//	close(c)  使用这个方式有可能只抓到1个第三页就结束了。因为协程里面顺序不一定是1,2,3执行。不知道该什么时候关闭chan。所以采用下面select方式
+			//}
 		}()
 		url:=fmt.Sprintf(url,index) //格式化字符串，生成每一页页码url
 		res,_:=http.Get(url) //http请求
