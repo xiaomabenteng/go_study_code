@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net"
+	"runtime"
+	"time"
 )
 func response() string {
 	str:=`HTTP/1.1 200 OK
@@ -23,13 +25,19 @@ func main()  {
 	}
 	defer lis.Close()
 	fmt.Println("创建监听成功，等待客户端连接")
+	go func() {
+		for{
+			fmt.Printf("当前任务数%d\n",runtime.NumGoroutine())
+			time.Sleep(time.Second*2)
+		}
+	}()
 	for{
 		client,err:=lis.Accept()
 		if err!=nil{
 			fmt.Println(err)
 			return
 		}
-		func (c net.Conn){
+		go func (c net.Conn){
 			defer c.Close()
 			buf:=make([]byte,4096)
 			n,err:=c.Read(buf)
@@ -37,7 +45,9 @@ func main()  {
 				fmt.Println(err)
 				return
 			}
-			fmt.Printf(string(buf[:n]))
+			if GetRequestPath(string(buf[:n]))=="/delay" {
+				time.Sleep(time.Second*10)
+			}
 			c.Write([]byte(response()))
 		}(client)
 	}
