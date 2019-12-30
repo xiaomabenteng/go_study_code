@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net"
 )
 
@@ -16,13 +17,19 @@ func main()  {
 		fmt.Println(err)
 		return
 	}
-	buf:=make([]byte,512)
-	n,err:=client.Read(buf)
-	if err!=nil{
-		fmt.Println(err)
-		return
+	for{
+		buf:=make([]byte,8)  //循环读取客户端发送的内容，每次读取8字节
+		n,err:=client.Read(buf)
+		if err!=nil{
+			if err==io.EOF{
+				break
+			}
+			fmt.Println(err)
+			return
+		}
+		fmt.Printf("读取到%d,内容是%s",n,string(buf))
 	}
-	fmt.Printf("读取到%d,内容是%s",n,string(buf))
+
 
 
 }
