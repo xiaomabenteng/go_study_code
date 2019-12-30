@@ -6,15 +6,7 @@ import (
 	"runtime"
 	"time"
 )
-func response() string {
-	str:=`HTTP/1.1 200 OK
-Server: myserver
-Content-Type: text/html
 
-this is body
-`
-	return str
-}
 
 func main()  {
 
@@ -48,7 +40,7 @@ func main()  {
 			if GetRequestPath(string(buf[:n]))=="/delay" {
 				time.Sleep(time.Second*10)
 			}
-			c.Write([]byte(response()))
+			c.Write([]byte(ReadHtml(GetRequestPath(string(buf[:n])))))
 		}(client)
 	}
 
