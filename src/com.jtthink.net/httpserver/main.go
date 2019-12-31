@@ -38,12 +38,22 @@ func main()  {
 
 
 
-	handler:=new(MyHandler)
-	server:=http.Server{Addr:":8099",Handler:handler} //传递自定义handler
+	//handler:=new(MyHandler)
+	//server:=http.Server{Addr:":8099",Handler:handler} //传递自定义handler
+	//err:=server.ListenAndServe()
+	//if err!=nil{
+	//	fmt.Println(err)
+	//}
+
+	mymux:=http.NewServeMux()                // 自定义路由管理
+	mymux.Handle("/hello",new(MyHandler)) //第一种方式,使用自定义handler
+
+	mymux.HandleFunc("/abc", func(writer http.ResponseWriter, request *http.Request) {  // 第二种方式
+		writer.Write([]byte("abc"))
+	})
+	server:=http.Server{Addr:":8099",Handler:mymux}
 	err:=server.ListenAndServe()
 	if err!=nil{
 		fmt.Println(err)
 	}
-
-
 }
