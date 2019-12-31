@@ -9,11 +9,11 @@ import (
 func main()  {
 
 	router:=core.DefaultRouter()
-	router.Get("/", func(writer http.ResponseWriter, request *http.Request) {
-		writer.Write([]byte("get 这是根目录"))
+	router.Get("/", func(ctx *core.MyContext) {
+		ctx.WriteString("ctx get")
 	})
-	router.Post("/", func(writer http.ResponseWriter, request *http.Request) {
-		writer.Write([]byte("post 这是根目录"))
+	router.Post("/", func(ctx *core.MyContext) {
+		ctx.WriteString("ctx post")
 	})
 	err:=http.ListenAndServe(":8099",router)
 	if err!=nil{
