@@ -7,33 +7,28 @@ import (
 type MyHandleFunc func(Ctx *MyContext)
 
 type MyRouter struct {
-	Mapping map[string]map[string]MyHandleFunc
-	Ctx *MyContext
+	Mapping map[string]ControllerInterface
+
 }
 
 func DefaultRouter()  *MyRouter{
-	return &MyRouter{make(map[string]map[string]MyHandleFunc),&MyContext{}}
+	return &MyRouter{make(map[string]ControllerInterface)}
 }
 
-func (this *MyRouter) Get(path string,f MyHandleFunc)  {
-	if this.Mapping["GET"]==nil{
-		this.Mapping["GET"]=make(map[string]MyHandleFunc)
-	}
-	this.Mapping["GET"][path]=f
+//加入 path和controller的对应关系
+func (this *MyRouter) Add(path string,c ControllerInterface)  {
+	this.Mapping[path]=c
 }
-func (this *MyRouter) Post(path string,f MyHandleFunc)  {
-	if this.Mapping["POST"]==nil{
-		this.Mapping["POST"]=make(map[string]MyHandleFunc)
-	}
-	this.Mapping["POST"][path]=f
-}
+
 func (this *MyRouter) ServeHTTP(writer http.ResponseWriter, request *http.Request)  {
 
-	this.Ctx.request=request
-	this.Ctx.ResponseWriter=writer
-
-	if f,OK:=this.Mapping[request.Method][request.URL.Path];OK{
-		f(this.Ctx)
+	if f,OK:=this.Mapping[request.URL.Path];OK{
+		f.Init(&MyContext{request,writer})
+		if request.Method=="GET"{
+			f.GET()
+		}else if request.Method=="POST" {
+			f.POST()
+		}
 	}
 
 
