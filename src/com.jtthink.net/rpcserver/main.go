@@ -19,7 +19,6 @@ func (this *ProdService) GetStock(req prod.ProdRequest,res *prod.ProdResponse)  
 }
 func main()  {
 
-
 	lis,_:=net.Listen("tcp",":8082")
 	rpc.Register(new(ProdService))
 
