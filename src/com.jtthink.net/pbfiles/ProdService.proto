@@ -1,0 +1,8 @@
+syntax="proto3";
+package prod;
+message ProdRequest{
+    int32 prod_id=1; //传入商品id 1代表是第一个参数
+}
+message ProdResponse{
+    int32 prod_stock=1; //商品库存
+}

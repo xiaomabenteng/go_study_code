@@ -1,21 +1,19 @@
 package main
 
 import (
+	prod "com.jtthink.net/pbfiles"
 	"net"
 	"net/rpc"
-	"net/rpc/jsonrpc"
 )
 
-type UserService struct {
+type ProdService struct {}
 
-}
+func (this *ProdService) GetStock(req prod.ProdRequest,res *prod.ProdResponse)  error{
 
-func (*UserService) GetUserName (userid int,username *string)  error{
-
-	if userid==101 {
-		*username="zhangsan"
-	}else{
-		*username="guest"
+	if req.ProdId==500{
+		res.ProdStock=20
+	}else {
+		res.ProdStock=30
 	}
 	return nil
 }
@@ -23,11 +21,11 @@ func main()  {
 
 
 	lis,_:=net.Listen("tcp",":8082")
-	rpc.Register(new(UserService))
+	rpc.Register(new(ProdService))
 
 	for  {
 		client,_:=lis.Accept()
-		jsonrpc.ServeConn(client)
+		rpc.ServeConn(client)
 	}
 
 

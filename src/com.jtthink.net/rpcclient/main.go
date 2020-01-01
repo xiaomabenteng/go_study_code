@@ -1,14 +1,16 @@
 package main
 
 import (
+	prod "com.jtthink.net/pbfiles"
 	"fmt"
-	"net/rpc/jsonrpc"
+	"net/rpc"
 )
 
 func main()  {
 
-	client,_:=jsonrpc.Dial("tcp","127.0.0.1:8082")
-	username:=""
-	client.Call("UserService.GetUserName",101,&username)
-	fmt.Println(username)
+	client,_:=rpc.Dial("tcp","127.0.0.1:8082")
+
+	ret:=prod.ProdResponse{}
+	client.Call("ProdService.GetStock",prod.ProdRequest{ProdId:600},&ret)
+	fmt.Println(ret.ProdStock)
 }
