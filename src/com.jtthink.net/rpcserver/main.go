@@ -3,6 +3,7 @@ package main
 import (
 	"net"
 	"net/rpc"
+	"net/rpc/jsonrpc"
 )
 
 type UserService struct {
@@ -26,7 +27,7 @@ func main()  {
 
 	for  {
 		client,_:=lis.Accept()
-		rpc.ServeConn(client)
+		jsonrpc.ServeConn(client)
 	}
 
 
