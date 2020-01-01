@@ -9,7 +9,7 @@ import (
 func main()  {
 
 	router:=core.DefaultRouter()
-	//router.Add("/", &NewsControlelr{})
+	router.Add("/", &NewsControlelr{})
 
 	err:=http.ListenAndServe(":8099",router)
 	if err!=nil{

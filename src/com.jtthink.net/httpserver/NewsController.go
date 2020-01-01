@@ -7,7 +7,7 @@ type NewsControlelr struct {
 }
 
 func (this *NewsControlelr) GET()  {
-	this.Ctx.WriteString("this newscontroller get")
+	this.Ctx.WriteJSON(map[string]string{"name":"zhangsan"})
 }
 func (this *NewsControlelr) POST()  {
 	this.Ctx.WriteString("this newscontroller post")
