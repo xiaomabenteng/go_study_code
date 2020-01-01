@@ -7,8 +7,13 @@ type NewsControlelr struct {
 }
 
 func (this *NewsControlelr) GET()  {
-	this.Ctx.WriteJSON(map[string]string{"name":"zhangsan"})
+	//this.Ctx.WriteJSON(core.Map{"name":"zhangsan"})
+	p:=this.GetParam("username","lisi")
+	this.Ctx.WriteString(p)
 }
 func (this *NewsControlelr) POST()  {
-	this.Ctx.WriteString("this newscontroller post")
+	//this.Ctx.WriteString("this newscontroller post")
+	p:=this.PostParam("username","wangwu")
+	this.Ctx.WriteString(p)
 }
+
