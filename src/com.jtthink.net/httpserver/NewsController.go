@@ -13,7 +13,12 @@ func (this *NewsControlelr) GET()  {
 }
 func (this *NewsControlelr) POST()  {
 	//this.Ctx.WriteString("this newscontroller post")
-	p:=this.PostParam("username","wangwu")
-	this.Ctx.WriteString(p)
+
+	//p:=this.PostParam("username","wangwu")
+	//this.Ctx.WriteString(p)
+
+	user:=UserModel{}
+	this.JSONParam(&user)
+	this.Ctx.WriteJSON(user)
 }
 
