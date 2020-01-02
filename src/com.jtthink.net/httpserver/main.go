@@ -8,6 +8,7 @@ import (
 
 func main()  {
 
+
 	router:=core.DefaultRouter()
 	router.Add("/", &NewsControlelr{})
 
