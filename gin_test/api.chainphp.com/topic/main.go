@@ -37,13 +37,7 @@ func main()  {
 
 	v1:=route.Group("/v1/topics") //路由分组
 	{//代码块。跟路由分组没关系，仅仅是为了代码看起来清晰。
-		v1.GET("", func(c *gin.Context) {
-			if c.Query("username")  == ""{
-				c.String(200,"topic列表")
-			}else{
-				c.String(200,"用户%s的topic列表",c.Query("username"))
-			}
-		})
+		v1.GET("", src.GetTopicList)
 		v1.GET("/:topic_id", src.GetTopicDetial)
 
 		v1.Use(src.MustLogin())

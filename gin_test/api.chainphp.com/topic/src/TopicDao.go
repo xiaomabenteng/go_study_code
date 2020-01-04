@@ -16,8 +16,20 @@ func MustLogin()  gin.HandlerFunc{
 		}
 	}
 }
+func GetTopicList(c *gin.Context)  {
+
+	query:=TopicQuery{}
+	err:=c.BindQuery(&query)
+	if err!=nil{
+		c.String(400,"参数错误%s",err.Error())
+	}else{
+		c.JSON(200,query)
+	}
+
+}
 func GetTopicDetial(c *gin.Context)  {
-	c.String(200,"ID%s的帖子的详细",c.Param("topic_id"))
+	//c.String(200,"ID%s的帖子的详细",c.Param("topic_id"))
+	c.JSON(200,CreateTopic(101,"101帖子详情"))
 }
 func NewTopic(c *gin.Context)  {
 	c.String(200,"新增帖子")
