@@ -4,8 +4,12 @@
 package prod
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -106,13 +110,95 @@ func init() {
 func init() { proto.RegisterFile("ProdService.proto", fileDescriptor_50db98fd6a3e2ab5) }
 
 var fileDescriptor_50db98fd6a3e2ab5 = []byte{
-	// 118 bytes of a gzipped FileDescriptorProto
+	// 149 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x0c, 0x28, 0xca, 0x4f,
 	0x09, 0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x29,
 	0x28, 0xca, 0x4f, 0x51, 0x52, 0xe3, 0xe2, 0x06, 0x49, 0x05, 0xa5, 0x16, 0x96, 0xa6, 0x16, 0x97,
 	0x08, 0x89, 0x73, 0xb1, 0x83, 0x84, 0xe3, 0x33, 0x53, 0x24, 0x18, 0x15, 0x18, 0x35, 0x58, 0x83,
 	0xd8, 0x40, 0x5c, 0xcf, 0x14, 0x25, 0x5d, 0x2e, 0x1e, 0x88, 0xba, 0xe2, 0x82, 0xfc, 0xbc, 0xe2,
 	0x54, 0x21, 0x59, 0x2e, 0x2e, 0xb0, 0xc2, 0xe2, 0x92, 0xfc, 0xe4, 0x6c, 0xa8, 0x5a, 0x4e, 0x90,
-	0x48, 0x30, 0x48, 0x20, 0x89, 0x0d, 0x6c, 0x87, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x20, 0x2d,
-	0xce, 0xa7, 0x78, 0x00, 0x00, 0x00,
+	0x48, 0x30, 0x48, 0xc0, 0xc8, 0x05, 0x62, 0x2c, 0xd4, 0x46, 0x21, 0x53, 0x2e, 0x1e, 0xf7, 0xd4,
+	0x92, 0x00, 0x98, 0xb4, 0x90, 0x20, 0xc8, 0x0d, 0x29, 0x7a, 0x48, 0x36, 0x4b, 0x09, 0x21, 0x0b,
+	0x41, 0x2c, 0x49, 0x62, 0x03, 0xbb, 0xd4, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0xeb, 0x49, 0x23,
+	0x15, 0xbe, 0x00, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// ProdServiceClient is the client API for ProdService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type ProdServiceClient interface {
+	GetProdStock(ctx context.Context, in *ProdRequest, opts ...grpc.CallOption) (*ProdResponse, error)
+}
+
+type prodServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewProdServiceClient(cc *grpc.ClientConn) ProdServiceClient {
+	return &prodServiceClient{cc}
+}
+
+func (c *prodServiceClient) GetProdStock(ctx context.Context, in *ProdRequest, opts ...grpc.CallOption) (*ProdResponse, error) {
+	out := new(ProdResponse)
+	err := c.cc.Invoke(ctx, "/prod.ProdService/GetProdStock", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ProdServiceServer is the server API for ProdService service.
+type ProdServiceServer interface {
+	GetProdStock(context.Context, *ProdRequest) (*ProdResponse, error)
+}
+
+// UnimplementedProdServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedProdServiceServer struct {
+}
+
+func (*UnimplementedProdServiceServer) GetProdStock(ctx context.Context, req *ProdRequest) (*ProdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProdStock not implemented")
+}
+
+func RegisterProdServiceServer(s *grpc.Server, srv ProdServiceServer) {
+	s.RegisterService(&_ProdService_serviceDesc, srv)
+}
+
+func _ProdService_GetProdStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProdServiceServer).GetProdStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/prod.ProdService/GetProdStock",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProdServiceServer).GetProdStock(ctx, req.(*ProdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _ProdService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "prod.ProdService",
+	HandlerType: (*ProdServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetProdStock",
+			Handler:    _ProdService_GetProdStock_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "ProdService.proto",
 }
