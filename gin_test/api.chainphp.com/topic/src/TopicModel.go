@@ -14,6 +14,12 @@ type TopicsModel struct {
 	TopicListSize int `json:"size"`
 
 }
+type TopicClass struct {
+	ClassId int `gorm:"PRIMARY_KEY"`
+	ClassName string
+	ClassRemark string
+	ClassType string `gorm:"Column:classtype"` //设置数据库真实字段名
+}
 
 func CreateTopic(id int,title string)  TopicModel{
 	return TopicModel{}
