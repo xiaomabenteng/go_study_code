@@ -32,7 +32,13 @@ func GetTopicDetial(c *gin.Context)  {
 	c.JSON(200,CreateTopic(101,"101帖子详情"))
 }
 func NewTopic(c *gin.Context)  {
-	c.String(200,"新增帖子")
+	topic:=TopicModel{}
+	err:=c.BindJSON(&topic)
+	if err!=nil {
+		c.String(400,"参数错误:%s",err.Error())
+	}else {
+		c.JSON(200,topic)
+	}
 }
 func DeleteTopic(c *gin.Context)  {
 	c.String(200,"删除帖子")

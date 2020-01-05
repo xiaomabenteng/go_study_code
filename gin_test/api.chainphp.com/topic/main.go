@@ -40,7 +40,7 @@ func main()  {
 		v1.GET("", src.GetTopicList)
 		v1.GET("/:topic_id", src.GetTopicDetial)
 
-		v1.Use(src.MustLogin())
+		//v1.Use(src.MustLogin())
 		v1.POST("", src.NewTopic)
 		v1.DELETE("/:topic_id", src.DeleteTopic)
 	}
