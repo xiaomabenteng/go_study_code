@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"github.com/jinzhu/gorm"
+	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gopkg.in/go-playground/validator.v9"
 	"topic.chainphp.com/src"
 )
 
@@ -12,8 +13,8 @@ import (
 //	TopicTitle string
 //}
 func main()  {
-	db, _ := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local")
-db.LogMode(true)
+	//db, _ := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local")
+	//db.LogMode(true)
 	//db.SingularTable(true)//设置不让gorm自动给表明加复数
 
 	//tc:=src.TopicClass{}
@@ -24,11 +25,20 @@ db.LogMode(true)
 	//db.Table("topic_class").Find(&tcs)
 	//fmt.Println(tcs)
 
-	tcs1:=[]src.TopicClass{}
-	db.Table("topic_class").Where("class_name = ?", "技术类").Find(&tcs1)
-	//db.Table("topic_class").Where(&src.TopicClass{ClassName:"技术类"}).Find(&tcs1)
+	//tcs1:=[]src.TopicClass{}
+	//db.Table("topic_class").Where("class_name = ?", "技术类").Find(&tcs1)
+	////db.Table("topic_class").Where(&src.TopicClass{ClassName:"技术类"}).Find(&tcs1)
+	//fmt.Println(tcs1)
 
-	fmt.Println(tcs1)
+	////数据插入
+	//topics:=src.TopicModel{
+	//	TopicTitle:"TopicTitle",
+	//	TopicShortTitle:"TopicShortTitle",
+	//	UserIP:"127.0.0.1",
+	//	TopicScore:0,TopicUrl:"testurl",
+	//	TopicDate:time.Now()}
+	//fmt.Println(db.Table("topics").Create(&topics).RowsAffected)
+	//fmt.Println(topics.TopicID)
 
 
 
@@ -45,31 +55,31 @@ db.LogMode(true)
 
 
 
-	//route:=gin.Default()
-	//if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-	//	v.RegisterValidation("topicurl", src.TopicUrl)
-	//	v.RegisterValidation("topicValidate", src.TopicValidate)
-	//}
-	//
-	//
-	//v1:=route.Group("/v1/topics") //路由分组
-	//{//代码块。跟路由分组没关系，仅仅是为了代码看起来清晰。
-	//	v1.GET("", src.GetTopicList)
-	//	v1.GET("/:topic_id", src.GetTopicDetial)
-	//
-	//	//v1.Use(src.MustLogin())
-	//	v1.POST("", src.NewTopic)
-	//	v1.DELETE("/:topic_id", src.DeleteTopic)
-	//}
-	//v2:=route.Group("/v1/mtopics") //路由分组
-	//{
-	//	v2.Use(src.MustLogin())
-	//	{
-	//		v2.POST("", src.NewTopics)
-	//	}
-	//}
-	//
-	//route.Run()
+	route:=gin.Default()
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("topicurl", src.TopicUrl)
+		v.RegisterValidation("topicValidate", src.TopicValidate)
+	}
+
+
+	v1:=route.Group("/v1/topics") //路由分组
+	{//代码块。跟路由分组没关系，仅仅是为了代码看起来清晰。
+		v1.GET("", src.GetTopicList)
+		v1.GET("/:topic_id", src.GetTopicDetial)
+
+		//v1.Use(src.MustLogin())
+		v1.POST("", src.NewTopic)
+		v1.DELETE("/:topic_id", src.DeleteTopic)
+	}
+	v2:=route.Group("/v1/mtopics") //路由分组
+	{
+		v2.Use(src.MustLogin())
+		{
+			v2.POST("", src.NewTopics)
+		}
+	}
+
+	route.Run()
 
 
 

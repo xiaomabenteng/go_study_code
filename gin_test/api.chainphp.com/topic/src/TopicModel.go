@@ -1,13 +1,24 @@
 package src
 
+import "time"
+type Topics struct { //单个Topic实体
+	TopicID int `json:"id" gorm:"PRIMARY_KEY"`
+	TopicTitle string `json:"title" binding:"min=4,max=20"`
+	TopicShortTitle string `json:"stitle" binding:"required,nefield=TopicTitle"`
+	UserIp string `json:"ip" binding:"ipv4"`
+	TopicScore int `json:"score" binding:"omitempty,gt=5"`
+	TopicUrl string `json:"url" binding:"omitempty,topicurl"`
+	TopicDate time.Time `json:"url" binding:"required"`
+}
+
 type TopicModel struct {
-	TopicID int `json:"id"` //该model转换为json输出时，自动转换为tag的字段名
+	TopicID int `json:"id" gorm:"PRIMARY_KEY"` //该model转换为json输出时，自动转换为tag的字段名
 	TopicTitle string `json:"title" binding:"min=4,max=20"`
 	TopicShortTitle string `json:"stitle" binding:"required,nefield=TopicTitle"`
 	UserIP string `json:"ip" binding:"ipv4"`
 	TopicScore int `json:"score" binding:"omitempty,gt=5"`
 	TopicUrl string `json:"url" binding:"omitempty,topicurl"`
-
+	TopicDate time.Time `json:"url" binding:"required"`
 }
 type TopicsModel struct {
 	TopicList []TopicModel `json:"topics" binding:"gt=0,lt=3,topicValidate,dive"`
