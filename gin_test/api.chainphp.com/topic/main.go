@@ -2,13 +2,15 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"gopkg.in/go-playground/validator.v9"
 	"topic.chainphp.com/src"
 )
 
-type Topic struct {
-	TopicID int
-	TopicTitle string
-}
+//type Topic struct {
+//	TopicID int
+//	TopicTitle string
+//}
 func main()  {
 
 
@@ -35,6 +37,12 @@ func main()  {
 	//	c.String(200,"ID%s的帖子的详细",c.Param("topic_id"))
 	//})
 
+
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("topicurl", src.TopicUrl)
+	}
+
+
 	v1:=route.Group("/v1/topics") //路由分组
 	{//代码块。跟路由分组没关系，仅仅是为了代码看起来清晰。
 		v1.GET("", src.GetTopicList)
@@ -51,3 +59,4 @@ func main()  {
 
 
 }
+
