@@ -1,10 +1,15 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/go-playground/validator.v9"
+	"os"
+	"os/signal"
+	"time"
 	"topic.chainphp.com/src"
 )
 
@@ -13,6 +18,41 @@ import (
 //	TopicTitle string
 //}
 func main()  {
+	count:=0
+	go func() {
+		for{
+			fmt.Println("执行",count)
+			count++
+			time.Sleep(time.Second*1)
+		}
+	}()
+
+
+
+	c:=make(chan os.Signal)
+
+	//go func() { //启动一个协程5秒后发送 退出信号，整个程序停止运行
+	//	for i:=0;i<=5;i++{
+	//		if i==5 {
+	//			c<-os.Interrupt
+	//		}
+	//		time.Sleep(time.Second*1)
+	//	}
+	//}()
+	go func() { //使用上下文包的形式。 启动一个协程5秒后发送 退出信号，整个程序停止运行
+		ctx,_:=context.WithTimeout(context.Background(),time.Second*5)
+		select {
+			case <-ctx.Done():
+				c<-os.Interrupt
+		}
+	}()
+
+	signal.Notify(c)  //监听os信号
+	s:=<-c
+	fmt.Println(s)
+
+}
+func main2()  {
 	//db, _ := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local")
 	//db.LogMode(true)
 	//db.SingularTable(true)//设置不让gorm自动给表明加复数
