@@ -43,7 +43,7 @@ func GetTopicDetial(c *gin.Context)  {
 	topics:=Topics{}
 	DBHelper.Find(&topics,tid)
 	c.JSON(200,topics)
-	defer  DBHelper.Close()
+
 
 }
 func NewTopic(c *gin.Context)  {
