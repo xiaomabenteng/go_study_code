@@ -40,6 +40,15 @@ func NewTopic(c *gin.Context)  {
 		c.JSON(200,topic)
 	}
 }
+func NewTopics(c *gin.Context)  {
+	topics:=TopicsModel{}
+	err:=c.BindJSON(&topics)
+	if err!=nil {
+		c.String(400,"参数错误:%s",err.Error())
+	}else {
+		c.JSON(200,topics)
+	}
+}
 func DeleteTopic(c *gin.Context)  {
 	c.String(200,"删除帖子")
 }

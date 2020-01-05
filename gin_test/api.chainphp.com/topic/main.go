@@ -40,6 +40,7 @@ func main()  {
 
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("topicurl", src.TopicUrl)
+		v.RegisterValidation("topicValidate", src.TopicValidate)
 	}
 
 
@@ -52,7 +53,13 @@ func main()  {
 		v1.POST("", src.NewTopic)
 		v1.DELETE("/:topic_id", src.DeleteTopic)
 	}
-
+	v2:=route.Group("/v1/mtopics") //路由分组
+	{
+		v2.Use(src.MustLogin())
+		{
+			v2.POST("", src.NewTopics)
+		}
+	}
 
 	route.Run()
 

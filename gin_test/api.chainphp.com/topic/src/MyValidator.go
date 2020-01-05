@@ -13,10 +13,19 @@ import (
 //	}
 //v9 自定义验证方法
 func TopicUrl(fl validator.FieldLevel) bool {
-	if _,ok:=fl.Top().Interface().(*TopicModel);ok {
+	_,ok1:=fl.Top().Interface().(*TopicModel);
+	_,ok2:=fl.Top().Interface().(*TopicsModel);
+	if ok1||ok2 {
 		if matched,_:=regexp.MatchString(`^\w{4,10}$`,fl.Field().String());matched{
 			return true
 		}
+	}
+	return false
+}
+func TopicValidate(fl validator.FieldLevel) bool {
+	topics,ok:=fl.Top().Interface().(*TopicsModel);
+	if ok && topics.TopicListSize==len(topics.TopicList) {
+		return true
 	}
 	return false
 }
