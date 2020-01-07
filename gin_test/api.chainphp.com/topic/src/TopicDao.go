@@ -3,9 +3,9 @@ package src
 import (
 
 	"github.com/gin-gonic/gin"
-	"github.com/gomodule/redigo/redis"
-	"github.com/pquerna/ffjson/ffjson"
-	"log"
+	//"github.com/gomodule/redigo/redis"
+	//"github.com/pquerna/ffjson/ffjson"
+	//"log"
 	"net/http"
 )
 
@@ -47,31 +47,33 @@ func GetTopicDetial(c *gin.Context)  {
 	topics:=Topics{}
 	//DBHelper.Find(&topics,tid)
 	//c.JSON(200,topics)
-	key:="topic_"+tid
-	conn:=RedisDefaultPool.Get()
-	defer conn.Close()
-	top,err:=redis.Bytes(conn.Do("get",key))
-	if err !=nil{ //没取到
+	//key:="topic_"+tid
+	//conn:=RedisDefaultPool.Get()
+	//defer conn.Close()
+	//top,err:=redis.Bytes(conn.Do("get",key))
+	//if err !=nil{ //没取到
+	//
+	//	DBHelper.Find(&topics,tid)
+	//	retDate,_:=ffjson.Marshal(topics)
+	//	if topics.TopicID==0{
+	//		conn.Do("setex",key,20,retDate)
+	//	}else{
+	//		conn.Do("setex",key,50,retDate)
+	//	}
+	//
+	//	log.Print("从数据库读取")
+	//	c.JSON(200,topics)
+	//
+	//
+	//}else{
+	//	log.Print("从redis读取")
+	//	ffjson.Unmarshal(top,&topics)
+	//	c.JSON(200,topics)
+	//}
+
 
 		DBHelper.Find(&topics,tid)
-		retDate,_:=ffjson.Marshal(topics)
-		if topics.TopicID==0{
-			conn.Do("setex",key,20,retDate)
-		}else{
-			conn.Do("setex",key,50,retDate)
-		}
-
-		log.Print("从数据库读取")
-		c.JSON(200,topics)
-
-
-	}else{
-		log.Print("从redis读取")
-		ffjson.Unmarshal(top,&topics)
-		c.JSON(200,topics)
-	}
-
-
+		c.Set("dbResult",topics)
 
 }
 func NewTopic(c *gin.Context)  {

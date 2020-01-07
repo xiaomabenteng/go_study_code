@@ -114,7 +114,7 @@ func main()  {
 	v1:=route.Group("/v1/topics") //路由分组
 	{//代码块。跟路由分组没关系，仅仅是为了代码看起来清晰。
 		v1.GET("", src.GetTopicList)
-		v1.GET("/:topic_id", src.GetTopicDetial)
+		v1.GET("/:topic_id", src.CacheDecorator(src.GetTopicDetial,"topic_id","topic_%s",src.Topics{}))
 
 		//v1.Use(src.MustLogin())
 		v1.POST("", src.NewTopic)
