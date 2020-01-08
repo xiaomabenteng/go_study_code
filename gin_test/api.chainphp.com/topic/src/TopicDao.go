@@ -32,6 +32,13 @@ func GetTopicList(c *gin.Context)  {
 
 }
 func GetTopicDetial(c *gin.Context)  {
+	//使用DBhelper查询
+	tid:=c.Param("topic_id")
+	topics:=Topics{}
+	DBHelper.Find(&topics,tid)
+	c.JSON(200,topics)
+}
+func GetTopicDetial1(c *gin.Context)  {
 	//c.String(200,"ID%s的帖子的详细",c.Param("topic_id"))
 	//c.JSON(200,CreateTopic(101,"101帖子详情"))
 

@@ -8,6 +8,8 @@ import (
 	"github.com/gomodule/redigo/redis"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/go-playground/validator.v9"
+	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"time"
@@ -117,7 +119,8 @@ func main()  {
 	v1:=route.Group("/v1/topics") //路由分组
 	{//代码块。跟路由分组没关系，仅仅是为了代码看起来清晰。
 		v1.GET("", src.GetTopicList)
-		v1.GET("/:topic_id", src.CacheDecorator(src.GetTopicDetial,"topic_id","topic_%s",src.Topics{}))
+		v1.GET("/:topic_id", src.GetTopicDetial)
+		//v1.GET("/:topic_id", src.CacheDecorator(src.GetTopicDetial,"topic_id","topic_%s",src.Topics{}))
 
 		//v1.Use(src.MustLogin())
 		v1.POST("", src.NewTopic)
@@ -131,9 +134,38 @@ func main()  {
 		}
 	}
 
-	route.Run()
+	// route.Run() //gin框架封装的httpserver方法，其实就是下面的原生方法
 
+	//使用go原生启动一个httpserver
+	server:=&http.Server{
+		Addr:":8080",
+		Handler:route,
+	}
 
+	go(func() {
+		err:=server.ListenAndServe()
+		if err !=nil{
+			log.Fatal("服务器启动失败",err)
+		}
+	})()
+	go func() {
+		src.InitDB()
+	}()
+
+	//c:=make(chan os.Signal)
+	//signal.Notify(c)  //监听os信号
+	//s:=<-c //从chan读取数据，阻塞主进程，让服务一直继续
+	//fmt.Println(s) //打印出收到的os信号
+
+	src.ServerNotify()
+	//在这里可以做一些资源释放等善后操作。。。
+	ctx,cancel:=context.WithTimeout(context.Background(),time.Second*5)
+	defer cancel()
+	err:=server.Shutdown(ctx)
+	if err !=nil{
+		log.Fatalf("服务器关闭")
+	}
+	log.Println("服务器优雅退出")
 
 }
 
