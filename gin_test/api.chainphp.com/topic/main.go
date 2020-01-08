@@ -17,7 +17,7 @@ import (
 //	TopicID int
 //	TopicTitle string
 //}
-func main()  {
+func main2()  {
 	count:=0
 	go func() {
 		for{
@@ -52,7 +52,7 @@ func main()  {
 	fmt.Println(s)
 
 }
-func main2()  {
+func main()  {
 	//db, _ := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local")
 	//db.LogMode(true)
 	//db.SingularTable(true)//设置不让gorm自动给表明加复数
