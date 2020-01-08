@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/gomodule/redigo/redis"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/go-playground/validator.v9"
 	"os"
@@ -18,6 +19,17 @@ import (
 //	TopicTitle string
 //}
 func main2()  {
+
+}
+func main4()  {
+
+	conn:=src.RedisDefaultPool.Get()
+	str,_:=redis.String(conn.Do("get","name"))
+	fmt.Println(str)
+
+
+}
+func main3()  {
 	count:=0
 	go func() {
 		for{
@@ -105,7 +117,7 @@ func main()  {
 	v1:=route.Group("/v1/topics") //路由分组
 	{//代码块。跟路由分组没关系，仅仅是为了代码看起来清晰。
 		v1.GET("", src.GetTopicList)
-		v1.GET("/:topic_id", src.GetTopicDetial)
+		v1.GET("/:topic_id", src.CacheDecorator(src.GetTopicDetial,"topic_id","topic_%s",src.Topics{}))
 
 		//v1.Use(src.MustLogin())
 		v1.POST("", src.NewTopic)
