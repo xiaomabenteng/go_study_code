@@ -66,7 +66,7 @@ func main3()  {
 	fmt.Println(s)
 
 }
-func main()  {
+func main5()  {
 	//db, _ := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local")
 	//db.LogMode(true)
 	//db.SingularTable(true)//设置不让gorm自动给表明加复数
@@ -169,3 +169,52 @@ func main()  {
 
 }
 
+
+
+
+
+
+
+
+func main()  {
+
+
+	var v1 int            // 整型
+	var v2 string         // 字符串
+	var v3 bool           // 布尔型
+	var v4 [10]int        // 数组，数组元素类型为整型
+	var v5 struct {       // 结构体，成员变量 f 的类型为64位浮点型
+		f float64
+	}
+	var v6 *int           // 指针，指向整型
+	var v7 map[string]int   // map（字典），key为字符串类型，value为整型
+	var v16 []int
+	var v8 func(a int) int  // 函数，参数类型为整型，返回值类型为整型
+	var(                    //同时声明多个变量
+		v12 int
+		v13 string
+	)
+	var v14,v15 int
+
+	fmt.Println(v1,v2,v3,v4,v5,v6,v7,v8,v12,v13,v14,v15,v16)
+	//仅声明变量类型，声明之后会自动初始化对应类型的0值(int类型的0，string类型的"",bool类型的false等)
+	//打印结果 0  false [0 0 0 0 0 0 0 0 0 0] {0} <nil> map[] <nil>
+
+	var v9 int = 10   // 方式一，常规的初始化操作
+	var v10 = 10       // 方式二，此时变量类型会被编译器自动推导出来
+	v11 := 10          // 方式三，可以省略 var，编译器可以自动推导出v3的类型
+	fmt.Println(v9,v10,v11)
+
+	var i=1
+	var j=2
+	i, j = j, i    //多重赋值
+	fmt.Println(i,j)
+
+	name,_:=GetName()  //匿名变量 使用_申明改变量，该变量被丢弃
+	fmt.Println(name)
+
+
+}
+func GetName() (username,err string){
+	return "zhangsan","no"
+}
