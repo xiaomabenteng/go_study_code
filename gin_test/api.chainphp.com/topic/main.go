@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"reflect"
 	"time"
 	"topic.chainphp.com/src"
 )
@@ -669,8 +670,22 @@ func main()  {
 	print、println	打印函数，在实际开发中建议使用 fmt 包
 	complex、real、imag	用于复数类型的创建和操作
 */
-
-
+/*
+//类定义，初始化
+//689行
+	student := NewStudent(1, "学院君", 100)
+	fmt.Println(student)
+	student.SetName("学院君小号")
+	fmt.Println("Name:", student.GetName()) //使用类成员方法
+	fmt.Println(student) //{id: 1, name: 学院君, male: false, score: 100.000000}。自动调用string方法，以字符串打印类的实例
+//类的继承和方法重写
+//714行
+	animal:=Animal{"狗"}
+	dog:=Dog{animal}
+	fmt.Println(dog.GetName(), "叫声:", dog.Call(), "喜爱的食物:", dog.FavorFood())
+*/
+a:=123;
+fmt.Println( reflect.TypeOf(a))
 
 
 
@@ -682,4 +697,49 @@ func add(a, b int) int  {
 	a *= 2
 	b *= 3
 	return a + b
+}
+
+type Student struct {
+	id uint
+	name string
+	male bool
+	score float64
+}
+func NewStudent(id uint, name string, score float64) *Student {  //类初始化
+	return &Student{id: id, name:name, score:score}
+}
+func (s Student) GetName() string  { //类添加成员方法
+	return s.name
+}
+func (s *Student) SetName(name string) { //SetXXX 方法需要在函数内部修改成员变量的值，并且作用到该函数作用域以外，所以需要传入指针类型
+	s.name = name
+}
+func (s Student) String() string {
+	return fmt.Sprintf("{id: %d, name: %s, male: %t, score: %f}",
+		s.id, s.name, s.male, s.score)
+}
+
+
+type Animal struct {
+	name string
+}
+func (a Animal) Call() string {
+	return "动物的叫声..."
+}
+func (a Animal) FavorFood() string {
+	return "爱吃的食物..."
+}
+func (a Animal) GetName() string  {
+	return a.name
+}
+
+//继承Animal父类
+type Dog struct {
+	Animal
+}
+func (d Dog) FavorFood() string {
+	return "骨头"
+}
+func (d Dog) Call() string {
+	return "汪汪汪"
 }
